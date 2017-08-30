@@ -6,18 +6,20 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var tesseract = require('node-tesseract');
+var jimp = require('jimp');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
 var fileuploaded;
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,6 +28,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+
+jimp.read("test1.jpg").then(function (lenna) {
+    console.log("jimp started");
+    lenna
+        .resize(250,250)
+        .quality(100)                 // set JPEG quality
+        .greyscale()                    // set greyscale
+        .normalize()
+        .sepia()
+        .write("test1.jpg");// save
+
+   /* tesseract.process("test1.jpg",function(err, text) {
+        if(err) {
+            console.error(err);
+        }
+        else {
+            console.log("Text "+text);
+        }
+    });
+    */
+    console.log("jimp executed");
+}).catch(function (err) {
+    console.error(err);
+});
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -84,5 +110,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+console.log("Server running at http://localhost:3000/");
 
 module.exports = app;

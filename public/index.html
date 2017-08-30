@@ -14,24 +14,34 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="icon" type="image/gif/png" href="/public/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body ng-app="myapp">
-<h1>Image to Text Converter</h1>
+<h1 class="heading">Extract Text from Images</h1>
+<br><br><br>
+<div class="main">
 <form  ng-controller="MyCtrl as up" name="up.upload_form">
-    <input type="file" ngf-select ng-model="up.file" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB" class="btn btn-success"/>
+    <div style="text-align: center">
+        <input type="file" style="width: 250px; margin: 0 auto;" ngf-select ng-model="up.file" name="file" value="Browses" ngf-pattern="'image/*'" accept="image/*" class="btn btn-success"/>
+
     <br><br>
-    <p>Image thumbnail:</p> <img ng-show="!!up.file" ngf-thumbnail="up.file"/>
-    <i ng-show="up.upload_form.file.$error.required">*required</i><br>
-    <i ng-show="up.upload_form.file.$error.maxSize">File too large
-        {{up.file.size / 1000000|number:1}}MB: max 20M</i>
-    <br>
-    <button type="submit" ng-click="up.submit()" class="btn btn-primary">Submit</button>
-    <p>{{up.progress}}</p>
+    <img ng-show="!up.file" ngf-thumbnail="up.file" style="width: 400px; height: 400px;"/>
+    <br><br>
+    <button type="submit" ng-click="up.submit()" class="btn btn-primary" ng-model="check">Convert to Text</button>
+    </div>
 
-    <button type="submit" ng-click="convert()" class="btn btn-secondary">Convert to Text</button>
+    <br><br>
+    <div class="panel panel-default" ng-show="check">
+        <div class="panel-body">
+            {{answer}}
+        </div>
+    </div>
 
-    <p>{{answer}}</p>
 </form>
+</div>
+
+
 </body>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.2.13/ng-file-upload.min.js"></script>

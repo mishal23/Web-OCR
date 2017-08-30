@@ -1,34 +1,36 @@
-
 var app = angular.module('myapp', ['ngFileUpload']);
 
-app.controller('MyCtrl',['Upload','$window', '$scope','$http',function(Upload,$window,$scope,$http){
-    var vm = this;
-    vm.submit = function(){
-        if (vm.upload_form.file.$valid && vm.file) {
-            vm.upload(vm.file);
+app.controller('MyCtrl',['Upload','$window', '$scope','$http',function(Upload, $window, $scope, $http){
+    this.submit = function(){
+        if (this.file) {
+            upload(this.file);
+        }
+        else{
+            window.alert("Please select a image file");
         }
     };
 
-    vm.upload = function (file) {
+    upload = function (file) {
         Upload.upload({
             url: 'http://localhost:3000/upload',
             data: {file:file}
         }).then(function (resp) {
             if(resp.data.error_code === 0){
-                $window.alert('File ' + resp.config.data.file.name + ' uploaded.');
+                convert();
             }
             else {
-                $window.alert('an error occurred');
+                $window.alert('Error! Please try again');
             }
-        }, function (resp) { //catch error
+        }, function (resp) {
             console.log('Error status: ' + resp.status);
             $window.alert('Error status: ' + resp.status);
         });
     };
 
-    $scope.convert = function () {
+    convert = function () {
         console.log("Reached convert");
         $http.get('/text').then(function (res) {
+            $scope.check = 1;
             console.log(res.data);
             $scope.answer = res.data;
         },function fail() {

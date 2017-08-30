@@ -12,11 +12,12 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
-    "jade": "~1.11.0",
-    "morgan": "~1.8.1",
-    "serve-favicon": "~2.4.2",
     "fs": "0.0.2",
+    "jade": "~1.11.0",
+    "jimp": "^0.2.28",
+    "morgan": "~1.8.1",
     "multer": "1.1.0",
-    "node-tesseract": "^0.2.7"
+    "node-tesseract": "^0.2.7",
+    "serve-favicon": "~2.4.2"
   }
 }
