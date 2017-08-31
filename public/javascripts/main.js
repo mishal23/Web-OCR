@@ -31,6 +31,7 @@ app.controller('MyCtrl',['Upload','$window', '$scope','$http',function(Upload, $
 //      console.log("Reached convert");
         $http.get('/text').then(function (res) {
 //          console.log(res.data);
+            $scope.check = 1;
             $scope.answer = res.data;
         },function fail() {
             console.log("Failed");
