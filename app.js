@@ -12,6 +12,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
 var fileuploaded;
 
 // view engine setup
@@ -28,30 +29,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-
-jimp.read("test1.jpg").then(function (lenna) {
-    console.log("jimp started");
-    lenna
-        .resize(250,250)
-        .quality(100)                 // set JPEG quality
-        .greyscale()                    // set greyscale
-        .normalize()
-        .sepia()
-        .write("test1.jpg");// save
-
-   /* tesseract.process("test1.jpg",function(err, text) {
-        if(err) {
-            console.error(err);
-        }
-        else {
-            console.log("Text "+text);
-        }
-    });
-    */
-    console.log("jimp executed");
-}).catch(function (err) {
-    console.error(err);
-});
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -78,18 +55,37 @@ app.post('/upload', function(req, res) {
 
 
 app.get('/text',function (req,res) {
-    console.log("Converting to text");
-    console.log(fileuploaded);
-    console.log(req.body);
-    tesseract.process(__dirname + '/uploads/' + fileuploaded,function(err, text) {
-        if(err) {
-            console.error(err);
-        }
-        else {
-            res.json(text);
-            console.log(text);
-        }
+//  console.log("Converting to text");
+//  console.log(fileuploaded);
+    var jimppath = __dirname + '/uploads/' + fileuploaded;
+
+    jimp.read(jimppath).then(function (lenna) {
+//      console.log("jimp started");
+        lenna
+            .resize(400, 400)           // Rescaling
+            .quality(100)               // Quality
+            .greyscale()                // Binarisation
+            .brightness(0)              // Noise Removal
+            .exifRotate()               // Rotation / Deskewing
+//          .autocrop(0,0)            // tried for border removal, could not see difference
+            .write(__dirname + '/uploads/' + fileuploaded );// save
+
+        tesseract.process(__dirname + '/uploads/' + fileuploaded,function(err, text) {
+            if(err) {
+                console.error(err);
+            }
+            else {
+                res.json(text);
+                console.log(text);
+            }
+        });
+//      console.log("jimp executed");
+    }).catch(function (err) {
+        console.error(err);
     });
+
+    console.log(req.body);
+
 });
 
 // catch 404 and forward to error handler

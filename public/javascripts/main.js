@@ -28,13 +28,13 @@ app.controller('MyCtrl',['Upload','$window', '$scope','$http',function(Upload, $
     };
 
     convert = function () {
-        console.log("Reached convert");
+//      console.log("Reached convert");
         $http.get('/text').then(function (res) {
-            $scope.check = 1;
-            console.log(res.data);
+//          console.log(res.data);
             $scope.answer = res.data;
         },function fail() {
             console.log("Failed");
+//          window.alert("Failed to convert, Please try again");
         });
     };
 }]);
