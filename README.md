@@ -6,6 +6,8 @@
 Displays the text in English on an image, using Tesseract-OCR API to process the image to text
 - Users can upload the image from the local system and the text on the image will be displayed in a panel box in the same format as in the image.
 
+Video presentation of the application running [here](https://www.youtube.com/watch?v=OwzJh12qPWs)
+
 ### Assumptions and Limitations
 - Reading the [Improve Quality](https://github.com/tesseract-ocr/tesseract/wiki/ImproveQuality) Wiki page for stated to work on ```Rescaling```,
 ```Binarisation```,```Noise Removal```,```Rotation/Deskewing```,```Border Removal```
